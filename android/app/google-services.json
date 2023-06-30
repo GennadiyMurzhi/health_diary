@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "325965033469",
+    "project_id": "health-diary-ad782",
+    "storage_bucket": "health-diary-ad782.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325965033469:android:a66a9ddecf99ec202cf394",
+        "android_client_info": {
+          "package_name": "com.example.health_diary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "325965033469-he9cb8aehpbiupelm0r9381r89nuun14.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.health_diary",
+            "certificate_hash": "51c5ff968226d978fd0b1222c5f3eb1a776a9b9f"
+          }
+        },
+        {
+          "client_id": "325965033469-us117g1rd38qniad59o6kesgpmkin0n9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQd0Fm4dYYPWbu-sHOGhXO5Ra0wDhaVDs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "325965033469-bdjp1s14nbnaa3qh8ssvsakalorrn7ep.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "325965033469-28ti9nhq2j4p58el6uoh50oadiu3kd9e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.healthDiary"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325965033469:android:676faa7fde8ccbbc2cf394",
+        "android_client_info": {
+          "package_name": "com.example.test_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "325965033469-us117g1rd38qniad59o6kesgpmkin0n9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQd0Fm4dYYPWbu-sHOGhXO5Ra0wDhaVDs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "325965033469-bdjp1s14nbnaa3qh8ssvsakalorrn7ep.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "325965033469-28ti9nhq2j4p58el6uoh50oadiu3kd9e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.healthDiary"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
