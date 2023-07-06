@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_diary/application/auth/auth_cubit/auth_cubit.dart';
 import 'package:health_diary/injection.dart';
-import 'package:health_diary/ui/core/router.dart';
+import 'package:health_diary/ui/routes/router.dart';
 
 import 'drawer_button.dart';
 

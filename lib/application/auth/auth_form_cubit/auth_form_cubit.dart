@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:health_diary/domain/auth/auth_failure.dart';
 import 'package:health_diary/domain/auth/i_auth_facade.dart';
 import 'package:health_diary/domain/auth/value_objects.dart';
+import 'package:health_diary/domain/core/failures.dart';
+import 'package:health_diary/domain/core/value_objects.dart';
 import 'package:injectable/injectable.dart';
 
 part 'auth_form_state.dart';
@@ -61,76 +62,14 @@ class AuthFormCubit extends Cubit<AuthFormState> {
     );
   }
 
-  void validName() {
-    emit(
-      state.copyWith(errorName: false),
-    );
-  }
-
-  void validSurname() {
-    emit(
-      state.copyWith(errorSurname: false),
-    );
-  }
-
-  void validAge() {
-    emit(
-      state.copyWith(errorAge: false),
-    );
-  }
-
-  void validEmail() {
-    emit(
-      state.copyWith(errorEmailAddress: false),
-    );
-  }
-
-  void validPassword() {
-    emit(
-      state.copyWith(errorPassword: false),
-    );
-  }
-
-  void noValidName() {
-    emit(
-      state.copyWith(errorName: true),
-    );
-  }
-
-  void noValidSurname() {
-    emit(
-      state.copyWith(errorSurname: true),
-    );
-  }
-
-  void noValidAge() {
-    emit(
-      state.copyWith(errorAge: true),
-    );
-  }
-
-  void noValidEmail() {
-    emit(
-      state.copyWith(errorEmailAddress: true),
-    );
-  }
-
-  void noValidPassword() {
-    emit(
-      state.copyWith(errorPassword: true),
-    );
-  }
-
   Future<void> signUpPressed() async {
-    Either<AuthFailure, Unit>? failuresOrSuccess;
+    Either<Failure, Unit>? failuresOrSuccess;
 
-    final isNameValid = state.name!.isValid();
-    final isSurnameValid = state.surname!.isValid();
-    final isAgeValid = state.age!.isValid();
-    final isEmailValid = state.emailAddress.isValid();
-    final isPasswordValid = state.password.isValid();
-
-    if (isNameValid && isSurnameValid && isAgeValid && isEmailValid && isPasswordValid) {
+    if (state.name!.isValid() &&
+        state.surname!.isValid() &&
+        state.age!.isValid() &&
+        state.emailAddress.isValid() &&
+        state.password.isValid()) {
       emit(
         state.copyWith(
           isSubmitting: true,
@@ -157,12 +96,9 @@ class AuthFormCubit extends Cubit<AuthFormState> {
   }
 
   Future<void> signInPressed() async {
-    Either<AuthFailure, Unit>? failuresOrSuccess;
+    Either<Failure, Unit>? failuresOrSuccess;
 
-    final isEmailValid = state.emailAddress.isValid();
-    final isPasswordValid = state.password.isValid();
-
-    if (isEmailValid && isPasswordValid) {
+    if (state.emailAddress.isValid() && state.password.isValid()) {
       emit(
         state.copyWith(
           isSubmitting: true,
@@ -175,6 +111,7 @@ class AuthFormCubit extends Cubit<AuthFormState> {
         password: state.password,
       );
     }
+
     emit(
       state.copyWith(
         isSubmitting: false,

@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:health_diary/ui/core/router.dart';
+import 'package:health_diary/ui/routes/router.dart';
 import 'package:injectable/injectable.dart';
 
 import 'injection.config.dart';

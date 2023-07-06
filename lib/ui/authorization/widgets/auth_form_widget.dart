@@ -5,8 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_diary/application/auth/auth_form_cubit/auth_form_cubit.dart';
 import 'package:health_diary/injection.dart';
 import 'package:health_diary/ui/authorization/widgets/authorization_text_field_widget.dart';
-import 'package:health_diary/ui/core/no_scroll_behavior.dart';
-import 'package:health_diary/ui/core/router.dart';
+import 'package:health_diary/ui/core/no_over_scroll_behavior.dart';
+import 'package:health_diary/ui/routes/router.dart';
 import 'package:health_diary/ui/core/widgets/logo_caption_widget.dart';
 import 'package:health_diary/ui/core/widgets/logo_widget.dart';
 
@@ -24,11 +24,15 @@ class AuthFormWidget extends StatelessWidget {
           (either) => either.fold(
             (failure) {
               FlushbarHelper.createError(
-                message: failure.map(
+                message: failure.maybeMap(
                   cancelledByUser: (_) => 'Canceled',
                   serverError: (_) => 'Server error',
-                  emailAlreadyInUsed: (_) => 'Email already in use',
-                  invalidEmailAndPasswordCombination: (_) => 'Invalid email and password combination',
+                  auth: (_) => _.failure.maybeMap(
+                    emailAlreadyInUsed: (_) => 'Email already in use',
+                    invalidEmailAndPasswordCombination: (_) => 'Invalid email and password combination',
+                    orElse: () => '',
+                  ),
+                  orElse: () => '',
                 ),
               ).show(context);
             },
@@ -43,7 +47,7 @@ class AuthFormWidget extends StatelessWidget {
           key: _formKey,
           autovalidateMode: state.showErrorMessage ? AutovalidateMode.always : AutovalidateMode.disabled,
           child: ScrollConfiguration(
-            behavior: NoScrollBehavior(),
+            behavior: NoOverScrollBehavior(),
             child: CustomScrollView(
               slivers: <Widget>[
                 SliverFillRemaining(
@@ -64,24 +68,14 @@ class AuthFormWidget extends StatelessWidget {
                                 BlocProvider.of<AuthFormCubit>(context).state.name!.value.fold(
                               (l) => l.maybeWhen(
                                 wrongName: (String value) {
-                                  if (!state.errorName!) {
-                                    BlocProvider.of<AuthFormCubit>(context).noValidName();
-                                  }
                                   return 'The name must start capitalized';
                                 },
                                 nameContainsOtherThen: (String value) {
-                                  if (!state.errorName!) {
-                                    BlocProvider.of<AuthFormCubit>(context).noValidName();
-                                  }
                                   return 'The name must can only contain letters';
                                 },
-
                                 orElse: () => '',
                               ),
                               (r) {
-                                if (state.errorName!) {
-                                  BlocProvider.of<AuthFormCubit>(context).validName();
-                                }
                                 return null;
                               },
                             ),
@@ -94,23 +88,14 @@ class AuthFormWidget extends StatelessWidget {
                                 BlocProvider.of<AuthFormCubit>(context).state.surname!.value.fold(
                               (l) => l.maybeWhen(
                                 wrongName: (String value) {
-                                  if (!state.errorSurname!) {
-                                    BlocProvider.of<AuthFormCubit>(context).noValidSurname();
-                                  }
                                   return 'The surname must start capitalized';
                                 },
                                 nameContainsOtherThen: (String value) {
-                                  if (!state.errorSurname!) {
-                                    BlocProvider.of<AuthFormCubit>(context).noValidSurname();
-                                  }
                                   return 'The surname must can only contain letters';
                                 },
                                 orElse: () => '',
                               ),
                               (r) {
-                                if (state.errorSurname!) {
-                                  BlocProvider.of<AuthFormCubit>(context).validSurname();
-                                }
                                 return null;
                               },
                             ),
@@ -123,17 +108,11 @@ class AuthFormWidget extends StatelessWidget {
                             validator: (String? value) => BlocProvider.of<AuthFormCubit>(context).state.age!.value.fold(
                               (l) => l.maybeWhen(
                                 unacceptableAge: (String value) {
-                                  if (!state.errorAge!) {
-                                    BlocProvider.of<AuthFormCubit>(context).noValidAge();
-                                  }
                                   return 'The age must be at least eighteen';
                                 },
                                 orElse: () => '',
                               ),
                               (r) {
-                                if (state.errorAge!) {
-                                  BlocProvider.of<AuthFormCubit>(context).validAge();
-                                }
                                 return null;
                               },
                             ),
@@ -147,17 +126,11 @@ class AuthFormWidget extends StatelessWidget {
                               BlocProvider.of<AuthFormCubit>(context).state.emailAddress.value.fold(
                             (l) => l.maybeWhen(
                               invalidEmail: (String value) {
-                                if (!state.errorEmailAddress) {
-                                  BlocProvider.of<AuthFormCubit>(context).noValidEmail();
-                                }
                                 return 'Invalid Email';
                               },
                               orElse: () => '',
                             ),
                             (r) {
-                              if (state.errorEmailAddress) {
-                                BlocProvider.of<AuthFormCubit>(context).validEmail();
-                              }
                               return null;
                             },
                           ),
@@ -170,17 +143,11 @@ class AuthFormWidget extends StatelessWidget {
                               BlocProvider.of<AuthFormCubit>(context).state.password.value.fold(
                             (l) => l.maybeWhen(
                               shortPassword: (String value) {
-                                if (!state.errorPassword) {
-                                  BlocProvider.of<AuthFormCubit>(context).noValidPassword();
-                                }
                                 return 'Short Password';
                               },
                               orElse: () => '',
                             ),
                             (r) {
-                              if (state.errorPassword) {
-                                BlocProvider.of<AuthFormCubit>(context).validPassword();
-                              }
                               return null;
                             },
                           ),

@@ -1,35 +1,40 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:health_diary/domain/auth/auth_failure.dart';
+import 'package:health_diary/domain/user/user_failure.dart';
 
 part 'failures.freezed.dart';
 
 @freezed
-abstract class ValueFailure<T> with _$ValueFailure<T> {
-  const factory ValueFailure.auth(AuthValueFailure<T> f) = _Auth<T>;
+abstract class Failure with _$Failure{
+  const factory Failure.auth(AuthFailure failure) = _Auth;
+  const factory Failure.user(UserFailure failure) = _User;
+  const factory Failure.cancelledByUser() = _CancelledByUser;
+  const factory Failure.serverError() = _ServerError;
 }
 
 @freezed
-abstract class AuthValueFailure<T> with _$AuthValueFailure<T> {
-  const factory AuthValueFailure.wrongName({
+abstract class ValueFailure<T> with _$ValueFailure<T> {
+  const factory ValueFailure.wrongName({
     required String failedValue,
   }) = WrongName<T>;
 
-  const factory AuthValueFailure.nameContainsOtherThen({
+  const factory ValueFailure.nameContainsOtherThen({
     required String failedValue,
   }) = NameContainsOtherThen<T>;
 
-  const factory AuthValueFailure.wrongSurname({
+  const factory ValueFailure.wrongSurname({
     required String failedValue,
   }) = WrongSurname<T>;
 
-  const factory AuthValueFailure.unacceptableAge({
+  const factory ValueFailure.unacceptableAge({
     required String failedValue,
   }) = UnacceptableAge<T>;
 
-  const factory AuthValueFailure.invalidEmail({
+  const factory ValueFailure.invalidEmail({
     required String failedValue,
   }) = InvalidEmail<T>;
 
-  const factory AuthValueFailure.shortPassword({
+  const factory ValueFailure.shortPassword({
     required String failedValue,
   }) = ShortPassword<T>;
 }

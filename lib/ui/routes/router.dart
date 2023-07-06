@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:health_diary/ui/authorization/authorization_screen.dart';
+import 'package:health_diary/ui/main/main_screen.dart';
+import 'package:health_diary/ui/splash_screen.dart';
 
-import '../authorization/authorization_screen.dart';
-import '../main/main_screen.dart';
-import '../splash_screen.dart';
+
 
 part 'router.gr.dart';
 

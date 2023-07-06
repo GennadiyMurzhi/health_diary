@@ -2,13 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:health_diary/domain/core/error.dart';
 import 'package:health_diary/domain/core/failures.dart';
+import 'package:health_diary/domain/core/value_validators.dart';
 import 'package:uuid/uuid.dart';
 
 @immutable
 abstract class ValueObject<T> {
   const ValueObject();
 
-  Either<AuthValueFailure<T>, T> get value;
+  Either<ValueFailure<T>, T> get value;
 
   T getOrCrash() {
     return value.fold((l) => throw UnexpectedValueError(l), id);
@@ -36,8 +37,12 @@ abstract class ValueObject<T> {
 
 @immutable
 class UniqueId extends ValueObject<String> {
+
+
+  const UniqueId._(this.value);
+
   @override
-  final Either<AuthValueFailure<String>, String> value;
+  final Either<ValueFailure<String>, String> value;
 
   factory UniqueId() {
     return UniqueId._(
@@ -50,6 +55,45 @@ class UniqueId extends ValueObject<String> {
       right(uniqueId),
     );
   }
+}
 
-  const UniqueId._(this.value);
+@immutable
+class Name extends ValueObject<String> {
+  @override
+  final Either<ValueFailure<String>, String> value;
+
+  factory Name(String input) {
+    return Name._(
+      validateName(input),
+    );
+  }
+
+  const Name._(this.value);
+}
+
+@immutable
+class Age extends ValueObject<int> {
+  @override
+  final Either<ValueFailure<int>, int> value;
+
+  factory Age(String input) {
+    final int? inputParse = int.tryParse(input);
+    if (inputParse == null) {
+      return Age._(
+        left(ValueFailure<int>.unacceptableAge(
+          failedValue: 'String have an unexpected format. String: $input',
+        )),
+      );
+    } else {
+      return Age._(
+        validateAge(inputParse),
+      );
+    }
+  }
+
+  factory Age.fromInt(int input) => Age._(
+    validateAge(input),
+  );
+
+  const Age._(this.value);
 }
