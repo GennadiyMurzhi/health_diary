@@ -12,7 +12,7 @@ class UserInfoFormState with _$UserInfoFormState {
 
   factory UserInfoFormState.initial() => UserInfoFormState(
         userInfo: UserInfo.empty(),
-        isEqualInitialUserInfo: false,
+        isEqualInitialUserInfo: true,
         showErrorMessage: false,
         isSaving: false,
         userFailureOrSuccessOption: none(),

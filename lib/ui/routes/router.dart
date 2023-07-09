@@ -2,8 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:health_diary/ui/authorization/authorization_screen.dart';
 import 'package:health_diary/ui/main/main_screen.dart';
 import 'package:health_diary/ui/splash_screen.dart';
-
-
+import 'package:health_diary/ui/user_info/user_info_screen.dart';
 
 part 'router.gr.dart';
 
@@ -15,6 +14,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: AuthorizationRoute.page,
           path: '/auth-screen',
+        ),
+        AutoRoute(
+          page: UserInfoRoute.page,
+          path: '/user-info-screen',
         ),
         AutoRoute(
           page: MainRoute.page,

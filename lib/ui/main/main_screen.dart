@@ -32,66 +32,68 @@ class BodyIfThereAreDiaries extends StatelessWidget {
   Widget build(BuildContext context) {
     final notifications = BlocProvider.of<MainCubit>(context).state.notificationList;
 
-    return LayoutBuilder(builder: (context, constraints) {
-      return Stack(
-        children: [
-          Positioned(
-            right: 10,
-            bottom: 20,
-            child: SvgPicture.asset(
-              'resources/images/clock_and_diaries_image.svg',
-              width: MediaQuery.of(context).size.height * 0.51093 * 0.75840,
-              height: MediaQuery.of(context).size.height * 0.51093,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Stack(
+          children: <Widget>[
+            Positioned(
+              right: 10,
+              bottom: 20,
+              child: SvgPicture.asset(
+                'resources/images/clock_and_diaries_image.svg',
+                width: MediaQuery.of(context).size.height * 0.51093 * 0.75840,
+                height: MediaQuery.of(context).size.height * 0.51093,
+              ),
             ),
-          ),
-          Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  top: constraints.maxWidth < 600 ? 12 : 3,
-                  bottom: constraints.maxWidth < 600 ? 9 : 5,
+            Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: constraints.maxWidth < 600 ? 12 : 3,
+                    bottom: constraints.maxWidth < 600 ? 9 : 5,
+                  ),
+                  child: const NameHeadline(),
                 ),
-                child: const NameHeadline(),
-              ),
-              Text(
-                '${BlocProvider.of<MainCubit>(context).state.countDiaries} diaries were created',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: constraints.maxWidth < 600 ? 15 : 5),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    'get to all',
-                    style: Theme.of(context).textTheme.labelMedium,
+                Text(
+                  '${BlocProvider.of<MainCubit>(context).state.countDiaries} diaries were created',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: constraints.maxWidth < 600 ? 15 : 5),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      'get to all',
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
                   ),
                 ),
-              ),
-              Text(
-                'Planned data inputs for today',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(
-                height: 6,
-              ),
-              Expanded(
-                child: ListView(
-                  children: List.generate(
-                    notifications.length,
-                    (index) => Center(
-                      child: NotificationWidget(
-                        diaryName: notifications[index].diaryName,
-                        dateInput: notifications[index].dateInput,
+                Text(
+                  'Planned data inputs for today',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(
+                  height: 6,
+                ),
+                Expanded(
+                  child: ListView(
+                    children: List.generate(
+                      notifications.length,
+                      (index) => Center(
+                        child: NotificationWidget(
+                          diaryName: notifications[index].diaryName,
+                          dateInput: notifications[index].dateInput,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
-      );
-    });
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 
@@ -106,7 +108,7 @@ class BodyIfThereAreNoDiaries extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Column(
-            children:  [
+            children: [
               const NameHeadline(),
               const SizedBox(
                 height: 8,

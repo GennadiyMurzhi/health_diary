@@ -1,10 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:health_diary/application/user/user_info_cubit/user_info_cubit.dart';
 import 'package:health_diary/domain/auth/i_auth_facade.dart';
 import 'package:health_diary/domain/auth/value_objects.dart';
 import 'package:health_diary/domain/core/failures.dart';
 import 'package:health_diary/domain/core/value_objects.dart';
+import 'package:health_diary/domain/user/i_user_repository.dart';
+import 'package:health_diary/domain/user/user.dart';
+import 'package:health_diary/domain/user/user_failure.dart';
+import 'package:health_diary/injection.dart';
 import 'package:injectable/injectable.dart';
 
 part 'auth_form_state.dart';
@@ -13,9 +18,10 @@ part 'auth_form_cubit.freezed.dart';
 
 @injectable
 class AuthFormCubit extends Cubit<AuthFormState> {
-  AuthFormCubit(this._authFacade) : super(AuthFormState.initialSignUp());
+  AuthFormCubit(this._authFacade, this._userRepository) : super(AuthFormState.initialSignUp());
 
   final IAuthFacade _authFacade;
+  final IUserRepository _userRepository;
 
   void onChangedName(String name) {
     emit(
@@ -129,14 +135,40 @@ class AuthFormCubit extends Cubit<AuthFormState> {
       ),
     );
 
-    final failuresOrSuccess = await _authFacade.signInWithGoogle();
+    final Either<Failure, Unit> failuresOrSuccess = await _authFacade.signInWithGoogle();
 
-    emit(
-      state.copyWith(
-        isSubmitting: false,
-        authFailureOrSuccessOption: some(failuresOrSuccess),
-      ),
-    );
+    if (failuresOrSuccess.isLeft()) {
+      emit(
+        state.copyWith(
+          isSubmitting: false,
+          authFailureOrSuccessOption: some(failuresOrSuccess),
+        ),
+      );
+    } else {
+      final Either<UserFailure, UserInfo> userInfoOrFailure = await _userRepository.getUserInfo();
+      userInfoOrFailure.fold(
+        (UserFailure userFailure) {
+          final Failure failure = Failure.user(userFailure);
+
+          emit(
+            state.copyWith(
+              isSubmitting: false,
+              authFailureOrSuccessOption: some(left(failure)),
+            ),
+          );
+        },
+        (UserInfo userInfo) {
+          getIt<UserInfoCubit>().setUserInfo(userInfo);
+
+          emit(
+            state.copyWith(
+              isSubmitting: false,
+              authFailureOrSuccessOption: some(right(unit)),
+            ),
+          );
+        },
+      );
+    }
   }
 
   void doNotHaveAnAccountYetPressed() {

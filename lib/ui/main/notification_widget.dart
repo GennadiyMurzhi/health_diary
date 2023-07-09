@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:health_diary/ui/core/item_container.dart';
+import 'package:health_diary/ui/core/widgets/item_container.dart';
 
 class NotificationWidget extends StatelessWidget {
   final String diaryName;

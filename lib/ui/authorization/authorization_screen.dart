@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_diary/application/auth/auth_form_cubit/auth_form_cubit.dart';
 import 'package:health_diary/injection.dart';
 import 'package:health_diary/ui/authorization/widgets/auth_form_widget.dart';
+import 'package:health_diary/ui/core/widgets/request_focus_widget.dart';
 
 @RoutePage()
 class AuthorizationScreen extends StatelessWidget {
@@ -11,12 +12,8 @@ class AuthorizationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
+    return RequestFocusWidget(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         body: BlocProvider(
           create: (BuildContext context) => getIt<AuthFormCubit>(),
           child: AuthFormWidget(),

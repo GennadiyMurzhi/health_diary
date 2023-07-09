@@ -23,7 +23,7 @@ Either<ValueFailure<String>, String> validateSurname(String input) {
 
 Either<ValueFailure<int>, int> validateAge(int input) {
   if (input < 18) {
-    return left(ValueFailure<int>.unacceptableAge(failedValue: 'The entered age is less than 18. Age: $input'));
+    return left(ValueFailure<int>.unacceptableAge(failedValue: '$input'));
   } else {
     return right(input);
   }

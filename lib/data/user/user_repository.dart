@@ -18,7 +18,7 @@ class UserRepository implements IUserRepository {
   Future<Either<UserFailure, domain.UserInfo>> getUserInfo() async {
     try {
       final DocumentReference<Object?> userDocumentReference = await _firebaseFirestore.userDocument();
-      final DocumentSnapshot<Object?> userDocument = await userDocumentReference.usersCollection.doc().get();
+      final DocumentSnapshot<Object?> userDocument = await userDocumentReference.get();
 
       if (userDocument.exists) {
         return right(UserInfoData.fromFirestore(userDocument).toDomain());

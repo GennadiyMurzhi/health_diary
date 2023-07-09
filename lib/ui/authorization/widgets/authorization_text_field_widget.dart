@@ -13,7 +13,7 @@ class AuthorizationTextFieldWidget extends StatelessWidget {
   final String hintText;
   final bool obscureText;
   final void Function(String value) onChanged;
-  final String? Function(String? value) validator;
+  final String? Function() validator;
   final TextInputType? keyboardType;
 
   @override
@@ -25,12 +25,14 @@ class AuthorizationTextFieldWidget extends StatelessWidget {
       child: SizedBox(
         width: 260,
         child: TextFormField(
+          key: key,
           style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
+          autocorrect: false,
           obscureText: obscureText,
           onChanged: onChanged,
-          validator: validator,
+          validator: (String? value) => validator(),
           keyboardType: keyboardType,
           maxLines: 1,
           decoration: InputDecoration(

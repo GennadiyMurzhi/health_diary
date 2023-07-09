@@ -19,17 +19,24 @@ class UserInfoFormCubit extends Cubit<UserInfoFormState> {
   final IUserRepository _userRepository;
   late final UserInfo _initialUserInfo;
 
-  void init(UserInfo initialUserInfo) {
-    _initialUserInfo = initialUserInfo;
-    emit(
-      state.copyWith(
-        userInfo: initialUserInfo,
-      ),
-    );
+  void init([UserInfo? initialUserInfo]) {
+    if (initialUserInfo == null) {
+      _initialUserInfo = UserInfo.empty();
+    } else {
+      _initialUserInfo = initialUserInfo;
+
+      emit(
+        state.copyWith(
+          userInfo: _initialUserInfo,
+        ),
+      );
+    }
   }
 
   void onChangedName(String name) {
-    final UserInfo newUserInfo = state.userInfo.copyWith(name: Name(name),);
+    final UserInfo newUserInfo = state.userInfo.copyWith(
+      name: Name(name),
+    );
 
     emit(
       state.copyWith(
@@ -41,7 +48,9 @@ class UserInfoFormCubit extends Cubit<UserInfoFormState> {
   }
 
   void onChangedSurname(String surname) {
-    final UserInfo newUserInfo = state.userInfo.copyWith(surname: Name(surname),);
+    final UserInfo newUserInfo = state.userInfo.copyWith(
+      surname: Name(surname),
+    );
 
     emit(
       state.copyWith(
@@ -53,7 +62,9 @@ class UserInfoFormCubit extends Cubit<UserInfoFormState> {
   }
 
   void onChangedAge(String age) {
-    final UserInfo newUserInfo = state.userInfo.copyWith(age: Age(age),);
+    final UserInfo newUserInfo = state.userInfo.copyWith(
+      age: Age(age),
+    );
 
     emit(
       state.copyWith(
