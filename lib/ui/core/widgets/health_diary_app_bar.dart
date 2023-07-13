@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:health_diary/ui/core/widgets/health_diary_icon_button.dart';
+import 'package:health_diary/ui/core/widgets/health_diary_icon_button_widget.dart';
 import 'package:health_diary/ui/core/widgets/headline_widget.dart';
 import 'package:health_diary/ui/core/widgets/title_medium_widget.dart';
+import 'package:health_diary/ui/health_diary_icons.dart';
 
 class HealthDiaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
-  final List<HealthDiaryIconButton>? actions;
+  final List<Widget>? actions;
   final bool needPop;
 
   const HealthDiaryAppBar({
@@ -19,65 +20,58 @@ class HealthDiaryAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final paddingTop = MediaQuery.of(context).padding.top;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 22),
-      child: Column(
-        children: [
-          SizedBox(
-            height: paddingTop,
-          ),
-          Row(
-            children: [
-              needPop
-                  ? HealthDiaryIconButton(
-                      'resources/icons/arrow_back_icon.svg',
-                      width: 30,
-                      height: 30,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  : HealthDiaryIconButton(
-                      'resources/icons/drawer_icon.svg',
-                      width: 25,
-                      height: 25,
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                    ),
-              const SizedBox(
-                width: 14,
-              ),
-              const TitleMediumWidget(
-                title: 'Health diary',
-              ),
-            ],
-          ),
-          title != null
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    HeadlineWidget(title!),
-                    title != null
-                        ? Row(
-                            children: List.generate(
-                              actions!.length,
-                              (index) => Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 14,
-                                ),
-                                child: actions![index],
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: MediaQuery.of(context).padding.top,
+        ),
+        Row(
+          children: [
+            needPop
+                ? IconButton(
+                    iconSize: 30,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(HealthDiaryIcons.arrow_back),
+                  )
+                : IconButton(
+                    iconSize: 25,
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    icon: const Icon(HealthDiaryIcons.drawer),
+                  ),
+            const SizedBox(
+              width: 14,
+            ),
+            const TitleMediumWidget(
+              title: 'Health diary',
+            ),
+          ],
+        ),
+        title != null
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  HeadlineWidget(title!),
+                  title != null
+                      ? Row(
+                          children: List.generate(
+                            actions!.length,
+                            (index) => Padding(
+                              padding: const EdgeInsets.only(
+                                left: 14,
                               ),
+                              child: actions![index],
                             ),
-                          )
-                        : Container(),
-                  ],
-                )
-              : Container(),
-        ],
-      ),
+                          ),
+                        )
+                      : Container(),
+                ],
+              )
+            : Container(),
+      ],
     );
   }
 

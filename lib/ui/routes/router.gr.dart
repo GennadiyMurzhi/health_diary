@@ -21,10 +21,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthorizationScreen(),
       );
     },
+    CreateDiaryRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CreateDiaryScreen(),
+      );
+    },
     MainRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const MainScreen(),
+      );
+    },
+    PresetSelectionRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PresetSelectionScreen(),
       );
     },
     SplashRoute.name: (routeData) {
@@ -57,6 +69,20 @@ class AuthorizationRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [CreateDiaryScreen]
+class CreateDiaryRoute extends PageRouteInfo<void> {
+  const CreateDiaryRoute({List<PageRouteInfo>? children})
+      : super(
+          CreateDiaryRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateDiaryRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [MainScreen]
 class MainRoute extends PageRouteInfo<void> {
   const MainRoute({List<PageRouteInfo>? children})
@@ -66,6 +92,20 @@ class MainRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MainRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PresetSelectionScreen]
+class PresetSelectionRoute extends PageRouteInfo<void> {
+  const PresetSelectionRoute({List<PageRouteInfo>? children})
+      : super(
+          PresetSelectionRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PresetSelectionRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

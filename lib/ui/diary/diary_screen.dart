@@ -5,9 +5,10 @@ import 'package:health_diary/domain/diary/diary.dart';
 import 'package:health_diary/ui/core/layout.dart';
 import 'package:health_diary/ui/core/widgets/headline_widget.dart';
 import 'package:health_diary/ui/core/widgets/health_diary_app_bar.dart';
-import 'package:health_diary/ui/core/widgets/health_diary_icon_button.dart';
+import 'package:health_diary/ui/core/widgets/health_diary_icon_button_widget.dart';
 import 'package:health_diary/ui/diary/preview_diary_body.dart';
 import 'package:health_diary/ui/diary/visualization_diary_body.dart';
+import 'package:health_diary/ui/health_diary_icons.dart';
 
 class DiaryScreen extends StatelessWidget {
   const DiaryScreen({Key? key}) : super(key: key);
@@ -23,11 +24,10 @@ class DiaryScreen extends StatelessWidget {
             title: 'Diary -',
             needPop: true,
             actions: [
-              HealthDiaryIconButton(
-                'resources/icons/settings_icon.svg',
-                width: 22,
-                height: 22,
+              IconButton(
+                iconSize: 22,
                 onPressed: () {},
+                icon: const Icon(HealthDiaryIcons.settings),
               ),
             ],
           ),

@@ -8,23 +8,23 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 @freezed
-class UserInfoData with _$UserInfoData {
-  const UserInfoData._();
+class UserInfoDto with _$UserInfoDto {
+  const UserInfoDto._();
 
-  factory UserInfoData({
+  factory UserInfoDto({
     required String name,
     required String surname,
     required int age,
-  }) = _UserInfoData;
+  }) = _UserInfoDto;
 
-  factory UserInfoData.fromJson(Map<String, dynamic> json) => _$UserInfoDataFromJson(json);
+  factory UserInfoDto.fromJson(Map<String, dynamic> json) => _$UserInfoDtoFromJson(json);
 
-  factory UserInfoData.fromFirestore(DocumentSnapshot doc) {
-    return UserInfoData.fromJson(doc.data() as Map<String, dynamic>);
+  factory UserInfoDto.fromFirestore(DocumentSnapshot doc) {
+    return UserInfoDto.fromJson(doc.data() as Map<String, dynamic>);
   }
 
-  UserInfoData fromDomain(UserInfo userInfo) {
-    return UserInfoData(
+  UserInfoDto fromDomain(UserInfo userInfo) {
+    return UserInfoDto(
       name: userInfo.name.getOrCrash(),
       surname: userInfo.surname.getOrCrash(),
       age: userInfo.age.getOrCrash(),

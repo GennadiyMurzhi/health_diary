@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_diary/application/main_cubit/main_cubit.dart';
+import 'package:health_diary/application/user/user_info_cubit/user_info_cubit.dart';
+import 'package:health_diary/injection.dart';
 import 'package:health_diary/ui/core/layout.dart';
+import 'package:health_diary/ui/core/widgets/dialog_custom_widget.dart';
 import 'package:health_diary/ui/core/widgets/health_diary_app_bar.dart';
 import 'package:health_diary/ui/main/notification_widget.dart';
+import 'package:health_diary/ui/routes/router.dart';
 
 @RoutePage()
 class MainScreen extends StatelessWidget {
@@ -18,6 +22,7 @@ class MainScreen extends StatelessWidget {
         needPop: false,
       ),
       needPadding: true,
+      isMain: true,
       child: BlocProvider.of<MainCubit>(context).state.countDiaries == 0
           ? const BodyIfThereAreDiaries()
           : const BodyIfThereAreNoDiaries(),
@@ -104,34 +109,58 @@ class BodyIfThereAreNoDiaries extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Column(
-            children: [
-              const NameHeadline(),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(
-                '0 diaries were created',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ],
-          ),
-          SvgPicture.asset(
-            'resources/images/empty_cabinet_image.svg',
-            width: MediaQuery.of(context).size.height * 0.3125 * 0.80665,
-            height: MediaQuery.of(context).size.height * 0.3125,
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text(
-              'Create your first diary',
-              style: Theme.of(context).textTheme.labelMedium,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              children: [
+                const NameHeadline(),
+                const SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  '0 diaries were created',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
             ),
-          ),
-        ],
+            SvgPicture.asset(
+              'resources/images/empty_cabinet_image.svg',
+              width: MediaQuery.of(context).size.height * 0.3125 * 0.80665,
+              height: MediaQuery.of(context).size.height * 0.3125,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => DialogCustomWidget(
+                    title: 'Create diary',
+                    text: 'You can create a diary on your own, and you can also create a diary using the presses.',
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          getIt<AppRouter>().pushNamed('path');
+                        },
+                        child: const Text('Create from preset'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          getIt<AppRouter>().pushNamed('path');
+                        },
+                        child: const Text('Create custom diary'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              child: Text(
+                'Create your first diary',
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -144,9 +173,13 @@ class NameHeadline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      BlocProvider.of<MainCubit>(context).state.userName,
-      style: Theme.of(context).textTheme.headlineSmall,
+    return BlocBuilder<UserInfoCubit, UserInfoState>(
+      builder: (BuildContext context, UserInfoState state) {
+        return Text(
+          '${state.userInfo.name.getOrCrash()} ${state.userInfo.surname.getOrCrash()}',
+          style: Theme.of(context).textTheme.headlineSmall,
+        );
+      },
     );
   }
 }

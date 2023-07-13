@@ -14,6 +14,8 @@ extension FirestoreX on FirebaseFirestore {
   }
 
   CollectionReference get usersCollection => collection('/users');
+
+  CollectionReference get diariesCollection => collection('/diaries');
 }
 
 extension DocumentReferenceX on DocumentReference {

@@ -21,7 +21,7 @@ class UserRepository implements IUserRepository {
       final DocumentSnapshot<Object?> userDocument = await userDocumentReference.get();
 
       if (userDocument.exists) {
-        return right(UserInfoData.fromFirestore(userDocument).toDomain());
+        return right(UserInfoDto.fromFirestore(userDocument).toDomain());
       } else {
         return left(const UserFailure.userHasNotData());
       }

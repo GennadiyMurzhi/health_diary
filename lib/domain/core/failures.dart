@@ -37,4 +37,18 @@ abstract class ValueFailure<T> with _$ValueFailure<T> {
   const factory ValueFailure.shortPassword({
     required String failedValue,
   }) = ShortPassword<T>;
+
+  const factory ValueFailure.longString({
+    required String failedValue,
+  }) = LongString<T>;
+
+  const factory ValueFailure.longDateTime({
+    required DateTime failedValue,
+  }) = LongDateTime<T>;
+
+  const factory ValueFailure.missesTheGap({
+    required double failedValue,
+    required double min,
+    required double max,
+  }) = MissesTheGap<T>;
 }

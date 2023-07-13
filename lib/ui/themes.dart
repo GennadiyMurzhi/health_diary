@@ -139,6 +139,7 @@ final ThemeData lightTheme = ThemeData(
       padding: MaterialStateProperty.all<EdgeInsets>(
         const EdgeInsets.symmetric(horizontal: 15),
       ),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
     ),
   ),
   iconTheme: const IconThemeData(

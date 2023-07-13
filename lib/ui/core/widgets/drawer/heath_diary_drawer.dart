@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_diary/application/auth/auth_cubit/auth_cubit.dart';
+import 'package:health_diary/application/user/user_info_cubit/user_info_cubit.dart';
 import 'package:health_diary/injection.dart';
 import 'package:health_diary/ui/routes/router.dart';
 
 import 'drawer_button.dart';
 
 class HealthDiaryDrawer extends StatelessWidget {
-  final String userName;
-
   const HealthDiaryDrawer({
     Key? key,
-    required this.userName,
+    required this.isMain,
+    required this.isDiaryList,
+    required this.isSettings,
   }) : super(key: key);
+
+  final bool isMain;
+  final bool isDiaryList;
+  final bool isSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +45,16 @@ class HealthDiaryDrawer extends StatelessWidget {
                   topRight: Radius.circular(25),
                 ),
               ),
-              child: Text(
-                userName,
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                textAlign: TextAlign.left,
+              child: BlocBuilder<UserInfoCubit, UserInfoState>(
+                builder: (BuildContext context, UserInfoState state) {
+                  return Text(
+                    '${state.userInfo.name.getOrCrash()} ${state.userInfo.surname.getOrCrash()}',
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                    textAlign: TextAlign.left,
+                  );
+                },
               ),
             ),
             Container(
@@ -55,20 +64,38 @@ class HealthDiaryDrawer extends StatelessWidget {
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
+                children: <Widget>[
                   Column(
-                    children: [
+                    children: <Widget>[
                       DrawerButtonWidget(
                         label: 'Main',
-                        onPressed: () {},
+                        onPressed: isMain
+                            ? () {
+                                getIt<AppRouter>().pop();
+                              }
+                            : () {
+                                getIt<AppRouter>().replaceNamed('/main-screen');
+                              },
                       ),
                       DrawerButtonWidget(
                         label: 'List of diaries',
-                        onPressed: () {},
+                        onPressed: isDiaryList
+                            ? () {
+                                getIt<AppRouter>().pop();
+                              }
+                            : () {
+                                getIt<AppRouter>().replaceNamed('/main-screen');
+                              },
                       ),
                       DrawerButtonWidget(
                         label: 'Settings',
-                        onPressed: () {},
+                        onPressed: isSettings
+                            ? () {
+                                getIt<AppRouter>().pop();
+                              }
+                            : () {
+                                getIt<AppRouter>().replaceNamed('/main-screen');
+                              },
                       ),
                     ],
                   ),
@@ -76,6 +103,7 @@ class HealthDiaryDrawer extends StatelessWidget {
                     label: 'logout',
                     onPressed: () async {
                       await BlocProvider.of<AuthCubit>(context).signedOut();
+                      getIt<AppRouter>().popUntilRoot();
                       getIt<AppRouter>().replaceNamed('/auth-screen');
                     },
                   ),
