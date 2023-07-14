@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:health_diary/domain/core/value_objects.dart';
 import 'package:health_diary/domain/diary/value_obects.dart';
 
 part 'diary.freezed.dart';
@@ -8,16 +9,31 @@ part 'diary.freezed.dart';
 class Diary with _$Diary {
   /// Main constructor
   factory Diary({
-    required String id,
-    required DiaryName diaryName,
+    required UniqueId id,
+    required DiaryName name,
     required DiaryDescription description,
     required DateTime startDate,
+    required DateTime? stopDate,
     required bool stopped,
     required List<Attribute> attributeList,
     required List<DataPoint> dataPointList,
     required List<InputData> inputDataList,
     required bool strictDataInput,
   }) = _Diary;
+
+  /// constructor to construct empty Diary
+  factory Diary.empty() => Diary(
+        id: UniqueId.fromUniqueString(''),
+        name: DiaryName(''),
+        description: DiaryDescription(''),
+        startDate: DateTime.now(),
+        stopDate: null,
+        stopped: false,
+        attributeList: <Attribute>[],
+        dataPointList: <DataPoint>[],
+        inputDataList: <InputData>[],
+        strictDataInput: false,
+      );
 }
 
 /// Diary attribute. diary attribute. The attribute by which you enter diary data, such as blood pressure or heart rate.
@@ -28,7 +44,7 @@ class Diary with _$Diary {
 class Attribute with _$Attribute {
   /// Main constructor
   factory Attribute({
-    required AttributeName attributeName,
+    required AttributeName name,
     required UnitName unit,
     required List<Attribute> attributeList,
     required double minInput,
@@ -53,5 +69,5 @@ class InputData with _$InputData {
   factory InputData({
     required Point point,
     required Map<AttributeName, Input> inputDataList,
-}) = _InputData;
+  }) = _InputData;
 }

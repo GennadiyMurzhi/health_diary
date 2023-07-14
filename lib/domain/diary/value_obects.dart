@@ -88,9 +88,9 @@ class Point extends ValueObject<DateTime> {
 @immutable
 class Input extends ValueObject<double> {
   /// Constructor which validate Point
-  factory Input(double input, double min, double max) {
+  factory Input(double input, double minInput, double maxInput) {
     return Input._(
-      validateRange(input, min, max),
+      validateRange(input, minInput, maxInput),
     );
   }
 
