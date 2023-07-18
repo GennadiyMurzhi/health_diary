@@ -17,6 +17,13 @@ abstract class ValueObject<T> {
 
   bool isValid() => value.isRight();
 
+  Either<ValueFailure<dynamic>, Unit> get failureOrUnit {
+    return value.fold(
+          (ValueFailure<T> l) => left(l),
+          (T r) => right(unit),
+    );
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

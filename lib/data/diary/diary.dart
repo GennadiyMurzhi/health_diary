@@ -4,6 +4,7 @@ import 'package:health_diary/data/core/converters.dart';
 import 'package:health_diary/domain/core/value_objects.dart';
 import 'package:health_diary/domain/diary/diary.dart';
 import 'package:health_diary/domain/diary/value_obects.dart';
+import 'package:kt_dart/collection.dart';
 
 part 'diary.freezed.dart';
 
@@ -17,7 +18,7 @@ class DiaryDto with _$DiaryDto {
     String? id,
     required String name,
     required String description,
-    @DateTimeConverter() required DateTime startDate,
+    @DateTimeConverter() required DateTime createDate,
     required bool stopped,
     @DateTimeConverter() DateTime? stopDate,
     required List<AttributeDto> attributeList,
@@ -39,21 +40,21 @@ class DiaryDto with _$DiaryDto {
         id: diary.id.getOrCrash(),
         name: diary.name.getOrCrash(),
         description: diary.description.getOrCrash(),
-        startDate: diary.startDate,
+        createDate: diary.createDate,
         stopDate: diary.stopDate,
         stopped: diary.stopped,
         attributeList: List<AttributeDto>.generate(
-          diary.attributeList.length,
+          diary.attributeList.size,
           (int index) => AttributeDto.fromDomain(diary.attributeList[index]),
         ),
         dataPointList: List<DataPointDto>.generate(
-          diary.dataPointList.length,
+          diary.dataPointList.size,
           (int index) => DataPointDto.fromDomain(
             diary.dataPointList[index],
           ),
         ),
         inputDataList: List<InputDataDto>.generate(
-          diary.inputDataList.length,
+          diary.inputDataList.size,
           (int index) => InputDataDto.fromDomain(diary.inputDataList[index]),
         ),
         strictDataInput: diary.strictDataInput,
@@ -66,21 +67,21 @@ class DiaryDto with _$DiaryDto {
         id: UniqueId.fromUniqueString(id!),
         name: DiaryName(name),
         description: DiaryDescription(description),
-        startDate: startDate,
+        createDate: createDate,
         stopDate: stopDate,
         stopped: stopped,
         attributeList: List<Attribute>.generate(
           attributeList.length,
           (int index) => attributeList[index].toDomain(),
-        ),
+        ).toImmutableList(),
         dataPointList: List<DataPoint>.generate(
           dataPointList.length,
           (int index) => dataPointList[index].toDomain(),
-        ),
+        ).toImmutableList(),
         inputDataList: List<InputData>.generate(
           inputDataList.length,
           (int index) => inputDataList[index].toDomain(attributeList),
-        ),
+        ).toImmutableList(),
         strictDataInput: strictDataInput,
       );
 }
@@ -102,7 +103,7 @@ class AttributeDto with _$AttributeDto {
         name: attribute.name.getOrCrash(),
         unit: attribute.unit.getOrCrash(),
         attributeList: List<AttributeDto>.generate(
-          attribute.attributeList.length,
+          attribute.attributeList.size,
           (int index) => AttributeDto.fromDomain(
             attribute.attributeList[index],
           ),
@@ -123,7 +124,7 @@ class AttributeDto with _$AttributeDto {
         attributeList: List<Attribute>.generate(
           attributeList.length,
           (int index) => attributeList[index].toDomain(),
-        ),
+        ).toImmutableList(),
         minInput: minInput,
         maxInput: maxInput,
       );
@@ -142,7 +143,7 @@ class DataPointDto with _$DataPointDto {
   factory DataPointDto.fromDomain(DataPoint dataPoint) => DataPointDto(
         point: dataPoint.point.getOrCrash(),
         attributeList: List<String>.generate(
-          dataPoint.attributeList.length,
+          dataPoint.attributeList.size,
           (int index) => dataPoint.attributeList[index].getOrCrash(),
         ),
       );
@@ -160,7 +161,7 @@ class DataPointDto with _$DataPointDto {
           (int index) => AttributeName(
             attributeList[index],
           ),
-        ),
+        ).toImmutableList(),
       );
 }
 
@@ -214,7 +215,7 @@ class InputDataDto with _$InputDataDto {
 
     return InputData(
       point: Point(point),
-      inputDataList: inputDataListDomain,
+      inputDataList: inputDataListDomain.toImmutableMap(),
     );
   }
 }
